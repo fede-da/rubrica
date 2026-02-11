@@ -28,24 +28,106 @@ public class MainFrame extends JFrame {
     }
 
     private void buildUi() {
-        JScrollPane scrollPane = new JScrollPane(table);
+        // Content pane con background immagine
+        BackgroundPanel content = new BackgroundPanel("/assets/user_list_bg.jpg");
+        setContentPane(content);
 
-        JButton nuovoBtn = new JButton("Nuovo");
-        JButton modificaBtn = new JButton("Modifica");
-        JButton eliminaBtn = new JButton("Elimina");
+        // Header (titolo + toolbar)
+        JLabel title = new JLabel("Rubrica");
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 22f));
+        title.setBorder(BorderFactory.createEmptyBorder(16, 16, 8, 16));
+
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+        toolBar.setOpaque(false);
+        toolBar.setBorder(BorderFactory.createEmptyBorder(0, 12, 10, 12));
+
+        JPanel header = new JPanel(new BorderLayout());
+        header.setOpaque(false);
+        header.add(title, BorderLayout.WEST);
+        header.add(toolBar, BorderLayout.EAST);
+
+        content.add(header, BorderLayout.NORTH);
+
+        // Tabella + scroll
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+
+        // Effetto "glass": tabella e viewport trasparenti per far vedere lo sfondo
+        table.setOpaque(false);
+        table.setFillsViewportHeight(true);
+        table.setRowHeight(28);
+        table.setShowHorizontalLines(false);
+        table.setShowVerticalLines(false);
+
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+
+        // Zebra rows + selezione più leggibile (semi-trasparente)
+        table.setDefaultRenderer(Object.class, (tbl, value, isSelected, hasFocus, row, col) -> {
+            javax.swing.table.DefaultTableCellRenderer r = new javax.swing.table.DefaultTableCellRenderer();
+            Component c = r.getTableCellRendererComponent(tbl, value, isSelected, hasFocus, row, col);
+
+            c.setFont(c.getFont().deriveFont(Font.PLAIN, 13f));
+            c.setForeground(Color.DARK_GRAY);
+
+            if (isSelected) {
+                c.setBackground(new Color(60, 120, 220, 90));
+            } else {
+                c.setBackground(row % 2 == 0
+                        ? new Color(255, 255, 255, 140)
+                        : new Color(245, 245, 245, 110));
+            }
+            ((JComponent) c).setOpaque(true);
+            return c;
+        });
+
+        content.add(scrollPane, BorderLayout.CENTER);
+
+        // Bottoni nella toolbar (in alto)
+        JButton nuovoBtn = new JButton("➕ Nuovo");
+        JButton modificaBtn = new JButton("✏️ Modifica");
+        JButton eliminaBtn = new JButton("🗑 Elimina");
+
+        for (JButton b : new JButton[]{nuovoBtn, modificaBtn, eliminaBtn}) {
+            b.setFocusPainted(false);
+            b.setContentAreaFilled(true);
+            b.setOpaque(true);
+            b.setForeground(Color.WHITE);
+            b.setFont(b.getFont().deriveFont(Font.BOLD, 13f));
+
+            // Sfondo blu moderno
+            b.setBackground(new Color(33, 150, 243));
+
+            // Bordo con effetto rilievo
+            b.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createLineBorder(new Color(25, 118, 210), 2, true),
+                    BorderFactory.createEmptyBorder(8, 14, 8, 14)
+            ));
+
+            // Effetto hover semplice
+            b.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    b.setBackground(new Color(30, 136, 229));
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    b.setBackground(new Color(33, 150, 243));
+                }
+            });
+        }
 
         nuovoBtn.addActionListener(e -> onNuovo());
         modificaBtn.addActionListener(e -> onModifica());
         eliminaBtn.addActionListener(e -> onElimina());
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttons.add(nuovoBtn);
-        buttons.add(modificaBtn);
-        buttons.add(eliminaBtn);
-
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
-        getContentPane().add(buttons, BorderLayout.SOUTH);
+        toolBar.add(nuovoBtn);
+        toolBar.addSeparator(new Dimension(10, 0));
+        toolBar.add(modificaBtn);
+        toolBar.addSeparator(new Dimension(10, 0));
+        toolBar.add(eliminaBtn);
     }
 
     private void onNuovo() {
@@ -53,7 +135,7 @@ public class MainFrame extends JFrame {
         dlg.setVisible(true);
 
         if (dlg.isSaved()) {
-            model.addPersona(dlg.getResult()); // salva anche su file (requisito)
+            model.addPersona(dlg.getResult());
             tableModel.refresh();
         }
     }
@@ -72,7 +154,7 @@ public class MainFrame extends JFrame {
         dlg.setVisible(true);
 
         if (dlg.isSaved()) {
-            model.updatePersona(modelRow, dlg.getResult()); // salva su file
+            model.updatePersona(modelRow, dlg.getResult());
             tableModel.refresh();
         }
     }
@@ -95,7 +177,7 @@ public class MainFrame extends JFrame {
         );
 
         if (res == JOptionPane.YES_OPTION) {
-            model.removePersona(modelRow); // salva su file
+            model.removePersona(modelRow);
             tableModel.refresh();
         }
     }
