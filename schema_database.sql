@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS rubrica;
 USE rubrica;
 
 CREATE TABLE IF NOT EXISTS persona (
