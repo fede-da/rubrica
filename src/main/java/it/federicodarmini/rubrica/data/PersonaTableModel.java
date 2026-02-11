@@ -1,4 +1,4 @@
-package it.federicodarmini.rubrica;
+package it.federicodarmini.rubrica.data;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Vector;

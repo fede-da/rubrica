@@ -1,4 +1,6 @@
-package it.federicodarmini.rubrica;
+package it.federicodarmini.rubrica.business;
+
+import it.federicodarmini.rubrica.data.Persona;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class RubricaFileRepository {
                     continue;
                 }
 
-                persone.add(new Persona(nome, cognome, indirizzo, telefono, eta));
+                persone.add(new Persona(0, nome, cognome, indirizzo, telefono, eta));
             }
         } catch (IOException e) {
             return new Vector<>();

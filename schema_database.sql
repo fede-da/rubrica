@@ -1,0 +1,10 @@
+USE rubrica;
+
+CREATE TABLE IF NOT EXISTS persona (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  cognome VARCHAR(100) NOT NULL,
+  indirizzo VARCHAR(255),
+  telefono VARCHAR(50),
+  eta INT NOT NULL
+);

@@ -1,4 +1,6 @@
-package it.federicodarmini.rubrica;
+package it.federicodarmini.rubrica.ui;
+
+import it.federicodarmini.rubrica.data.Persona;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,12 +15,14 @@ public class EditorPersonaDialog extends JDialog {
 
     private boolean saved = false;
     private Persona result = null;
+    private final Persona editingPersona;
 
     // persona == null => modalità "Nuovo"
     // persona != null => modalità "Modifica"
     public EditorPersonaDialog(Frame owner, Persona persona) {
         super(owner, true); // modale
         setTitle(persona == null ? "Nuova Persona" : "Modifica Persona");
+        this.editingPersona = persona;
 
         buildUi();
 
@@ -87,7 +91,17 @@ public class EditorPersonaDialog extends JDialog {
             return;
         }
 
-        result = new Persona(nome, cognome, indirizzo, telefono, eta);
+        if (editingPersona == null) {
+            // Nuova persona: l'id lo assegna il DB (auto-increment)
+            result = new Persona(nome, cognome, indirizzo, telefono, eta);
+        } else {
+            Integer id = editingPersona.getId();
+            if (id == null) {
+                JOptionPane.showMessageDialog(this, "Errore: la persona selezionata non ha un ID (record non persistito)." );
+                return;
+            }
+            result = new Persona(id, nome, cognome, indirizzo, telefono, eta);
+        }
         saved = true;
         dispose();
     }

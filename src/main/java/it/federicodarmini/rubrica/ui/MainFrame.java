@@ -1,4 +1,8 @@
-package it.federicodarmini.rubrica;
+package it.federicodarmini.rubrica.ui;
+
+import it.federicodarmini.rubrica.data.Persona;
+import it.federicodarmini.rubrica.data.PersonaTableModel;
+import it.federicodarmini.rubrica.data.RubricaModel;
 
 import javax.swing.*;
 import java.awt.*;
