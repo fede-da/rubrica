@@ -3,6 +3,7 @@ package it.federicodarmini.rubrica.ui;
 import it.federicodarmini.rubrica.data.Persona;
 import it.federicodarmini.rubrica.data.PersonaTableModel;
 import it.federicodarmini.rubrica.data.RubricaModel;
+import it.federicodarmini.rubrica.util.BackgroundMusic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,13 +26,13 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
 
         buildUi();
+        BackgroundMusic.playLoop("/assets/background.wav");
     }
 
     private void buildUi() {
         // Content pane con background immagine
         BackgroundPanel content = new BackgroundPanel("/assets/user_list_bg.jpg");
         setContentPane(content);
-
         // Header (titolo + toolbar)
         JLabel title = new JLabel("Rubrica");
         title.setFont(title.getFont().deriveFont(Font.BOLD, 22f));
