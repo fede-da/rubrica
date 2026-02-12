@@ -1,5 +1,7 @@
-package it.federicodarmini.rubrica.data;
+package it.federicodarmini.rubrica.util;
 
+import it.federicodarmini.rubrica.data.Persona;
+import it.federicodarmini.rubrica.data.Utente;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -11,7 +13,7 @@ public class HibernateUtil {
         try {
             Configuration cfg = new Configuration();
             cfg.addAnnotatedClass(Persona.class);
-            // Legge hibernate.properties da resources automaticamente
+            cfg.addAnnotatedClass(Utente.class);
             return cfg.buildSessionFactory();
         } catch (Exception ex) {
             throw new ExceptionInInitializerError("Errore init Hibernate: " + ex.getMessage());

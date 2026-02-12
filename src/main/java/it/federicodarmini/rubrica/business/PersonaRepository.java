@@ -1,6 +1,6 @@
 package it.federicodarmini.rubrica.business;
 
-import it.federicodarmini.rubrica.data.HibernateUtil;
+import it.federicodarmini.rubrica.util.HibernateUtil;
 import it.federicodarmini.rubrica.data.Persona;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
