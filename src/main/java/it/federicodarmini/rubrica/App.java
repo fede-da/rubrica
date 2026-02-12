@@ -17,6 +17,7 @@ public class App {
             RubricaModel model = new RubricaModel(repo);
 
             AuthService auth = new AuthService(new UtenteRepository());
+            auth.ensureAdminUser();
 
             LoginDialog login = new LoginDialog(null, auth);
             login.setVisible(true);

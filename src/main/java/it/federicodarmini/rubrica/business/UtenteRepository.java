@@ -23,4 +23,11 @@ public class UtenteRepository {
             tx.commit();
         }
     }
+
+    public long count() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("select count(u) from Utente u", Long.class)
+                    .getSingleResult();
+        }
+    }
 }
