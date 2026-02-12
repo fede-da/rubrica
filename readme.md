@@ -180,6 +180,18 @@ Assicurarsi che:
 
 ---
 
+# Media e Copyright
+
+Tutti i media presenti nel progetto (immagini, icone, file audio, asset grafici) sono:
+
+- Originali oppure
+- Royalty‑free oppure
+- Distribuiti con licenza che ne consente l'utilizzo e la redistribuzione
+
+Non sono presenti nel repository materiali protetti da copyright senza autorizzazione.
+
+---
+
 # Versione
 
 Rubrica 1.0.0
